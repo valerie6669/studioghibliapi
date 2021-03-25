@@ -1,25 +1,43 @@
 
 var xhr = new XMLHttpRequest();
-var url = "https://ghibliapi.herokuapp.com/films?&count=4"
+var baseUrl = "https://ghibliapi.herokuapp.com";
+var query;
 
+$("#submit").on("click",function() {
+	console.log($("#myInput").val())
+
+	query = "/" + $("#myInput").val() //you can type in films, people, locations, and species
+	callAPI()
+})
+
+function callAPI() {
+
+
+
+var url = baseUrl + query;
 xhr.open('GET', url, true);
 xhr.send(null);
 
 xhr.onload = function(){
+
+	console.log(xhr.status)
+
 	if(xhr.status == 200){
 
 		var ghibliData = JSON.parse(xhr.responseText)
 		console.log(ghibliData)
 
+		$(".pod").empty()
+
 		ghibliData.forEach(function(data){
 
-			$(".pod").prepend("<div>" + "<h2>" + ghibliData.title + ghibliData.original_title + ghibliData.original_title_romanized + "</h2><h3>" + ghibliData.director + ghibliData.producer + ghibliData.release_date + "</h3><p>" + ghibliData.description + "</p></div>");
-
+			$(".pod").prepend("<div>" + "<h2>" + ghibliData[0].title + ghibliData[0].original_title + ghibliData[0].original_title_romanised + "</h2><h3>" + ghibliData[0].director + ghibliData[0].producer + ghibliData[0].release_date + "</h3><p>" + ghibliData[0].description + "</p></div>");
 		// var title = ghibliData[0].original_title;
 
 		// $("p").text(title)
 	})
 	}
+}
 }
 
 // var baseUrl = "https://ghibliapi.herokuapp.com/films&count=42"
